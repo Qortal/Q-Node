@@ -30,21 +30,21 @@ import {
 } from '@mui/material';
 import {
   AddBoxOutlined,
+  AltRoute,
   Dangerous,
+  Engineering,
   FirstPage,
+  GridView,
+  HistoryToggleOff,
+  Hub,
   KeyboardArrowLeft,
   KeyboardArrowRight,
   LastPage,
   RemoveCircleOutline,
   RestartAlt,
   Storage,
-  SyncLock,
-  AltRoute,
-  Hub,
   Sync,
-  Engineering,
-  HistoryToggleOff,
-  GridView,
+  SyncLock,
 } from '@mui/icons-material';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import Slide, { SlideProps } from '@mui/material/Slide';
@@ -261,9 +261,11 @@ function App() {
         type: 'restart',
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.restart_request', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.restart_request', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -283,9 +285,11 @@ function App() {
         type: 'bootstrap',
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.bootstrap_request', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.bootstrap_request', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -305,9 +309,11 @@ function App() {
         type: 'stop',
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.stop_request', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.stop_request', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -328,9 +334,11 @@ function App() {
         value: mintingKey,
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.new_minting_account', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.new_minting_account', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -357,9 +365,11 @@ function App() {
         value: publicKey,
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.remove_minting_account', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.remove_minting_account', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -382,9 +392,11 @@ function App() {
         value: peerAddress,
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.new_peer', {
-          postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.new_peer', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -411,9 +423,11 @@ function App() {
         value: peerAddress,
       });
       if (!response?.error) {
-        setSuccessMessage(t('core:message.generic.success.remove_peer', {
-            postProcess: 'capitalizeFirstChar', 
-          }));
+        setSuccessMessage(
+          t('core:message.generic.success.remove_peer', {
+            postProcess: 'capitalizeFirstChar',
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -438,8 +452,8 @@ function App() {
       if (!response?.error) {
         setSuccessMessage(
           t('core:message.generic.starting_synch_peer', {
-            postProcess: 'capitalizeFirstChar', 
-            address: peerAddress
+            postProcess: 'capitalizeFirstChar',
+            address: peerAddress,
           })
         );
         setErrorMessage('');
@@ -498,18 +512,24 @@ function App() {
   }
 
   useEffect(() => {
-    let nodeDataTIntervalId: number | undefined;
-    (async () => {
-      nodeDataTIntervalId = setInterval(async () => {
-        const getData = await getNodeData();
-        setNodeData(getData);
-      }, 60000);
-      const getData = await getNodeData();
-      setNodeData(getData);
-    })();
-    return () => {
-      clearInterval(nodeDataTIntervalId);
+    let isRunning = false;
+
+    const fetchNodeData = async () => {
+      if (isRunning) return;
+      isRunning = true;
+      try {
+        const data = await getNodeData();
+        setNodeData(data);
+      } finally {
+        isRunning = false;
+      }
     };
+
+    fetchNodeData(); // fetch once immediately
+
+    const intervalId = setInterval(fetchNodeData, 60000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   async function getNameInfo(address: string) {
@@ -533,49 +553,81 @@ function App() {
   }
 
   async function getMintingAccounts() {
-    const mintingAccountsArray = [];
-    const mintingAccountsLink = `/admin/mintingaccounts`;
+    setLoadingMintingAccountsTable(true);
     try {
-      setLoadingMintingAccountsTable(true);
-      const mintingAccountsFetch = await fetch(mintingAccountsLink);
-      const mintingAccountsResponse = await mintingAccountsFetch.json();
-      mintingAccountsResponse.map(
-        async (item: {
-          mintingAccount: string;
-          publicKey: any;
-          recipientAccount: any;
-        }) => {
-          const nameRes = await getNameInfo(item?.mintingAccount);
-          const pushObj = {
-            publicKey: item?.publicKey,
-            mintingAccount: item?.mintingAccount,
-            recipientAccount: item?.recipientAccount,
-            name: nameRes?.name,
-            avatar: nameRes?.avatar,
+      const res = await fetch('/admin/mintingaccounts', {
+        headers: { Accept: 'application/json' },
+      });
+
+      const contentType = res.headers.get('content-type') || '';
+      const bodyText = await res.text();
+
+      if (!res.ok) {
+        throw new Error(
+          `GET /admin/mintingaccounts failed ${res.status} ${res.statusText}. ` +
+            `CT=${contentType}. Body: ${bodyText.slice(0, 200)}`
+        );
+      }
+
+      let list: Array<{
+        mintingAccount: string;
+        publicKey: string;
+        recipientAccount: string;
+      }>;
+
+      try {
+        list = JSON.parse(bodyText);
+      } catch {
+        throw new Error(
+          `Expected JSON but got ${contentType || 'unknown'}. ` +
+            `First chars: ${bodyText.slice(0, 120)}`
+        );
+      }
+
+      if (!Array.isArray(list)) {
+        throw new Error('Response is not an array.');
+      }
+
+      // Enrich in parallel and WAIT for them
+      const enriched = await Promise.all(
+        list.map(async (item) => {
+          const nameRes = await getNameInfo(item.mintingAccount);
+          return {
+            publicKey: item.publicKey,
+            mintingAccount: item.mintingAccount,
+            recipientAccount: item.recipientAccount,
+            name: nameRes?.name ?? null,
+            avatar: nameRes?.avatar ?? null,
           };
-          mintingAccountsArray.push(pushObj);
-        }
+        })
       );
-      setMintingAccounts(mintingAccountsArray);
-      await wait(2000);
+
+      setMintingAccounts(enriched);
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoadingMintingAccountsTable(false);
-    } catch (error) {
-      setLoadingMintingAccountsTable(false);
-      console.error(error);
     }
   }
 
   useEffect(() => {
-    let mintingAccountsInterval: number | undefined;
-    (async () => {
-      mintingAccountsInterval = setInterval(async () => {
+    let isRunning = false;
+
+    const fetchAccounts = async () => {
+      if (isRunning) return;
+      isRunning = true;
+      try {
         await getMintingAccounts();
-      }, 300000);
-      await getMintingAccounts();
-    })();
-    return () => {
-      clearInterval(mintingAccountsInterval);
+      } finally {
+        isRunning = false;
+      }
     };
+
+    fetchAccounts(); // initial
+
+    const intervalId = setInterval(fetchAccounts, 300000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   async function getConnectedPeers() {
@@ -652,9 +704,11 @@ function App() {
           width: '100%',
         }}
       >
-        <Typography variant="h6">{t('core:message.generic.minting_account', {
+        <Typography variant="h6">
+          {t('core:message.generic.minting_account', {
             postProcess: 'capitalizeFirstChar',
-          })}</Typography>
+          })}
+        </Typography>
         <Button
           disabled={isUsingGateway}
           size="small"
