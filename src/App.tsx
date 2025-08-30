@@ -697,11 +697,31 @@ function App() {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Avatar</StyledTableCell>
-                <StyledTableCell align="left">Name</StyledTableCell>
-                <StyledTableCell align="left">Address</StyledTableCell>
-                <StyledTableCell align="left">Minting Key</StyledTableCell>
-                <StyledTableCell align="left">Action</StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.minting_accounts.avatar', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.minting_accounts.name', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.minting_accounts.address', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.minting_accounts.minting_key', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.minting_accounts.action', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -747,7 +767,9 @@ function App() {
                           handleRemoveMintingAccount(row?.publicKey);
                         }}
                       >
-                        {t('core:action.remove')}
+                        {t('core:action.remove', {
+                          postProcess: 'capitalizeFirstChar',
+                        })}
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -764,7 +786,9 @@ function App() {
           align="center"
           sx={{ color: theme.palette.text.primary, fontWeight: 700 }}
         >
-          {t('core:message.generic.no_minting_accounts')}
+          {t('core:message.generic.no_minting_accounts', {
+            postProcess: 'capitalizeFirstChar',
+          })}
         </Typography>
       );
     }
@@ -781,12 +805,36 @@ function App() {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell align="left">Address</StyledTableCell>
-                <StyledTableCell align="left">Handshake Status</StyledTableCell>
-                <StyledTableCell align="left">Last Height</StyledTableCell>
-                <StyledTableCell align="left">Core Version</StyledTableCell>
-                <StyledTableCell align="left">Connected Since</StyledTableCell>
-                <StyledTableCell align="left">Actions</StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.address', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.handshake_status', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.last_height', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.core_version', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.connected_since', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
+                  {t('core:table_headers.peers.actions', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
               </TableRow>
             </TableHead>
 
@@ -856,7 +904,9 @@ function App() {
                           handleRemovePeer(row?.address);
                         }}
                       >
-                        {t('core:action.remove')}
+                        {t('core:action.remove', {
+                          postProcess: 'capitalizeFirstChar',
+                        })}
                       </Button>
 
                       <Button
@@ -868,7 +918,9 @@ function App() {
                           handleForceSync(row?.address);
                         }}
                       >
-                        {t('core:action.force_sync')}
+                        {t('core:action.force_sync', {
+                          postProcess: 'capitalizeFirstChar',
+                        })}
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -892,7 +944,9 @@ function App() {
                   slotProps={{
                     select: {
                       inputProps: {
-                        'aria-label': 'rows per page',
+                        'aria-label': t('core:message.generic.rows_per_page', {
+                          postProcess: 'capitalizeFirstChar',
+                        }),
                       },
                       native: true,
                     },
@@ -911,9 +965,11 @@ function App() {
         <Typography
           variant="h5"
           align="center"
-          sx={{ color: 'white', fontWeight: 700 }}
+          sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
         >
-          Node has no connected peers!
+          {t('core:message.generic.no_peers', {
+            postProcess: 'capitalizeFirstChar',
+          })}
         </Typography>
       );
     }
@@ -943,12 +999,12 @@ function App() {
           <Typography
             variant="h5"
             sx={{
-              color: 'primary.main',
-              fontFamily: 'magistralbold',
               fontWeight: 700,
             }}
           >
-            Loading Minting Account(s) Please Wait...
+            {t('core:message.generic.loading_minting_accounts', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </Typography>
         </div>
       </Box>
@@ -977,7 +1033,9 @@ function App() {
           </DialogContentText>
           <TextField
             required
-            label="MINTING KEY"
+            label={t('core:message.generic.minting_key', {
+              postProcess: 'capitalizeFirstChar',
+            })}
             id="minting-key"
             margin="normal"
             value={mintingAccountKey}
@@ -1162,7 +1220,9 @@ function App() {
         <div>
           <NodeWidget
             icon={GridView}
-            title="BLOCK HEIGHT"
+            title={t('core:widgets.block_height', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={nodeData?.height}
           />
         </div>
@@ -1170,7 +1230,9 @@ function App() {
         <div>
           <NodeWidget
             icon={Hub}
-            title="CONNECTED PEERS"
+            title={t('core:widgets.connected_peers', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={nodeData?.numberOfConnections}
           />
         </div>
@@ -1178,7 +1240,9 @@ function App() {
         <div>
           <NodeWidget
             icon={HistoryToggleOff}
-            title="NODE UPTIME"
+            title={t('core:widgets.node_uptime', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={secondsToDhms(nodeData?.uptime / 1000)}
           />
         </div>
@@ -1186,7 +1250,9 @@ function App() {
         <div>
           <NodeWidget
             icon={AltRoute}
-            title="CORE VERSION"
+            title={t('core:widgets.core_version', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={nodeData?.buildVersion.replace('qortal-', 'v')}
           />
         </div>
@@ -1194,17 +1260,19 @@ function App() {
         <div>
           <NodeWidget
             icon={Engineering}
-            title="MINTING STATUS"
+            title={t('core:widgets.minting_status', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={
               nodeData?.isMintingPossible ? (
                 <span style={{ color: '#66bb6a' }}>
-                  {t('core.status.minting', {
+                  {t('core:status.minting', {
                     postProcess: 'capitalizeFirstChar',
                   })}
                 </span>
               ) : (
                 <span style={{ color: '#f44336' }}>
-                  {t('core.status.not_minting', {
+                  {t('core:status.not_minting', {
                     postProcess: 'capitalizeFirstChar',
                   })}
                 </span>
@@ -1216,12 +1284,14 @@ function App() {
         <div>
           <NodeWidget
             icon={Sync}
-            title="SYNC STATUS"
+            title={t('core:widgets.sync_status', {
+              postProcess: 'capitalizeAll',
+            })}
             subtitle={
               nodeData?.isSynchronizing ? (
                 <>
                   <span style={{ color: '#ffa726' }}>
-                    {t('core.status.synchronizing', {
+                    {t('core:status.synchronizing', {
                       postProcess: 'capitalizeFirstChar',
                     })}
                   </span>
@@ -1230,7 +1300,7 @@ function App() {
               ) : (
                 <>
                   <span style={{ color: '#66bb6a' }}>
-                    {t('core.status.synchronized', {
+                    {t('core:status.synchronized', {
                       postProcess: 'capitalizeFirstChar',
                     })}
                   </span>

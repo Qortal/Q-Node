@@ -14,26 +14,11 @@
       "connected_peers": "peer connessi a questo Nodo",
       "loading_minting_accounts": "Caricamento degli account di minting, attendere...",
       "minting_account": "account di minting",
-      "no_minting_accounts": "nessun account di minting trovato per questo Nodo!",
-      "no_peers": "il nodo non ha peer connessi!",
+      "minting_key": "chiave di minting",
+      "minting_key_helper": "chiave di minting lunga 44 characters",
+      "no_minting_accounts": "nessun account di minting trovato per questo nodo",
+      "no_peers": "il nodo non ha peer connessi",
       "rows_per_page": "righe per pagina",
-      "table_headers": {
-        "peers": {
-          "actions": "azioni",
-          "address": "indirizzo",
-          "connected_since": "connesso da",
-          "core_version": "versione core",
-          "handshake_status": "stato handshake",
-          "last_height": "ultima altezza"
-        },
-        "minting_accounts": {
-          "action": "azione",
-          "address": "indirizzo",
-          "avatar": "avatar",
-          "minting_key": "chiave di minting",
-          "name": "nome"
-        }
-      },
       "success": {
         "bootstrap_request": "richiesta di bootstrap a questo Nodo inviata con successo! Potrebbe richiedere fino a 10 minuti...",
         "new_minting_account": "account di minting aggiunto con successo",
@@ -50,5 +35,30 @@
     "no_status": "nessuno stato",
     "synchronized": "sincronizzato",
     "synchronizing": "sincronizzazione in corso"
+  },
+  "table_headers": {
+    "peers": {
+      "actions": "azioni",
+      "address": "indirizzo",
+      "connected_since": "connesso da",
+      "core_version": "versione core",
+      "handshake_status": "stato handshake",
+      "last_height": "ultima altezza"
+    },
+    "minting_accounts": {
+      "action": "azione",
+      "address": "indirizzo",
+      "avatar": "avatar",
+      "minting_key": "chiave di minting",
+      "name": "nome"
+    }
+  },
+  "widgets": {
+    "block_height": "altezza del blocco",
+    "connected_peers": "peer connessi",
+    "core_version": "versione core",
+    "minting_status": "stato minting",
+    "node_uptime": "node uptime",
+    "sync_status": "stato syncronizzazione"
   }
 }
