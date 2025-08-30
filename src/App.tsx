@@ -63,8 +63,6 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAtom } from 'jotai';
-import { themeAtom } from './state/global/system';
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -263,9 +261,9 @@ function App() {
         type: 'restart',
       });
       if (!response?.error) {
-        setSuccessMessage(
-          'Successfully sent restart this Node request! This can take up to 5 minutes...'
-        );
+        setSuccessMessage(t('core:message.generic.success.restart_request', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -285,9 +283,9 @@ function App() {
         type: 'bootstrap',
       });
       if (!response?.error) {
-        setSuccessMessage(
-          'Successfully sent bootstrap this Node request! This can take up to 10 minutes...'
-        );
+        setSuccessMessage(t('core:message.generic.success.bootstrap_request', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -307,9 +305,9 @@ function App() {
         type: 'stop',
       });
       if (!response?.error) {
-        setSuccessMessage(
-          'Successfully sent stop this Node request! Please start your node again...'
-        );
+        setSuccessMessage(t('core:message.generic.success.stop_request', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -330,7 +328,9 @@ function App() {
         value: mintingKey,
       });
       if (!response?.error) {
-        setSuccessMessage('Successfully added minting account!');
+        setSuccessMessage(t('core:message.generic.success.new_minting_account', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -357,7 +357,9 @@ function App() {
         value: publicKey,
       });
       if (!response?.error) {
-        setSuccessMessage('Successfully removed minting account!');
+        setSuccessMessage(t('core:message.generic.success.remove_minting_account', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -380,7 +382,9 @@ function App() {
         value: peerAddress,
       });
       if (!response?.error) {
-        setSuccessMessage('Successfully added new peer!');
+        setSuccessMessage(t('core:message.generic.success.new_peer', {
+          postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -407,7 +411,9 @@ function App() {
         value: peerAddress,
       });
       if (!response?.error) {
-        setSuccessMessage('Successfully removed peer!');
+        setSuccessMessage(t('core:message.generic.success.remove_peer', {
+            postProcess: 'capitalizeFirstChar', 
+          }));
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -430,7 +436,12 @@ function App() {
         value: peerAddress,
       });
       if (!response?.error) {
-        setSuccessMessage('Starting sync with peer: ' + peerAddress);
+        setSuccessMessage(
+          t('core:message.generic.starting_synch_peer', {
+            postProcess: 'capitalizeFirstChar', 
+            address: peerAddress
+          })
+        );
         setErrorMessage('');
         setErrorSnackbar(false);
         setSuccessSnackbar(true);
@@ -641,7 +652,9 @@ function App() {
           width: '100%',
         }}
       >
-        <Typography variant="h6">Minting Account(s)</Typography>
+        <Typography variant="h6">{t('core:message.generic.minting_account', {
+            postProcess: 'capitalizeFirstChar',
+          })}</Typography>
         <Button
           disabled={isUsingGateway}
           size="small"
@@ -652,7 +665,9 @@ function App() {
           variant="outlined"
           style={{ borderRadius: 50 }}
         >
-          Add Minting Account
+          {t('core:action.add_minting_account', {
+            postProcess: 'capitalizeFirstChar',
+          })}
         </Button>
       </div>
     );
@@ -669,7 +684,11 @@ function App() {
           width: '100%',
         }}
       >
-        <Typography variant="h6">Peers connected to this Node</Typography>
+        <Typography variant="h6">
+          {t('core:message.generic.connected_peers', {
+            postProcess: 'capitalizeFirstChar',
+          })}
+        </Typography>
         <Button
           disabled={isUsingGateway}
           size="small"
@@ -680,7 +699,9 @@ function App() {
           variant="outlined"
           style={{ borderRadius: 50 }}
         >
-          Add new peer
+          {t('core:action.add_peer', {
+            postProcess: 'capitalizeFirstChar',
+          })}
         </Button>
       </div>
     );
@@ -848,20 +869,20 @@ function App() {
               ).map(
                 (
                   row: {
+                    address: string;
+                    age: string;
+                    connectedWhen: number;
+                    connectionId: string;
                     direction: string;
                     handshakeStatus: string;
-                    lastPing: number;
-                    connectedWhen: number;
-                    peersConnectedWhen: number;
-                    address: string;
-                    version: string;
-                    nodeId: string;
-                    lastHeight: number;
+                    isTooDivergent: boolean;
                     lastBlockSignature: string;
                     lastBlockTimestamp: number;
-                    connectionId: string;
-                    age: string;
-                    isTooDivergent: boolean;
+                    lastHeight: number;
+                    lastPing: number;
+                    nodeId: string;
+                    peersConnectedWhen: number;
+                    version: string;
                   },
                   i: Key
                 ) => (
