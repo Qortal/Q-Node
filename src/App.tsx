@@ -1,4 +1,3 @@
-import { CssBaseline } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   Alert,
@@ -128,6 +127,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
       >
         {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
       </IconButton>
+
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
@@ -139,6 +139,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
           <KeyboardArrowLeft />
         )}
       </IconButton>
+
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
@@ -150,6 +151,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
           <KeyboardArrowRight />
         )}
       </IconButton>
+
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
@@ -598,12 +600,12 @@ function App() {
     return (
       <div
         style={{
-          width: 'auto',
-          display: 'flex',
           alignItems: 'center',
+          display: 'flex',
+          gap: '10px',
           justifyContent: 'end',
           marginRight: '10px',
-          gap: '10px',
+          width: 'auto',
         }}
       >
         <Tooltip title="Restart Node">
@@ -665,11 +667,11 @@ function App() {
     return (
       <div
         style={{
-          width: '100%',
+          alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          alignItems: 'center',
           justifyContent: 'space-between',
+          width: '100%',
         }}
       >
         <Typography variant="h6">Peers connected to this Node</Typography>
@@ -727,15 +729,19 @@ function App() {
                         sx={{ width: 24, height: 24 }}
                       />
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.name}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.mintingAccount}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.publicKey}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       <Button
                         disabled={isUsingGateway}
@@ -819,6 +825,7 @@ function App() {
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.address}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.handshakeStatus === 'COMPLETED' ? (
                         <div style={{ color: '#66bb6a' }}>
@@ -830,15 +837,19 @@ function App() {
                         </div>
                       )}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.lastHeight}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.version ? row?.version.replace('qortal-', 'v') : ''}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.age}
                     </StyledTableCell>
+
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       <Button
                         disabled={isUsingGateway}
@@ -851,6 +862,7 @@ function App() {
                       >
                         Remove
                       </Button>
+
                       <Button
                         disabled={isUsingGateway}
                         size="small"
@@ -955,6 +967,7 @@ function App() {
         keepMounted={false}
       >
         <DialogTitle>Add minting account</DialogTitle>
+        
         <DialogContent>
           <DialogContentText>
             Please enter the minting key to be added to this node.
@@ -972,6 +985,7 @@ function App() {
             }
           />
         </DialogContent>
+
         <DialogActions>
           <Button color="error" onClick={handleCloseAddMintingAccountDialog}>
             Cancel
@@ -998,6 +1012,7 @@ function App() {
         keepMounted={false}
       >
         <DialogTitle>Add new peer</DialogTitle>
+
         <DialogContent>
           <DialogContentText>
             Specify a peer using hostname, IPv4 address, IPv6 address and
@@ -1014,6 +1029,7 @@ function App() {
             }
           />
         </DialogContent>
+
         <DialogActions>
           <Button color="error" onClick={handleCloseAddPeerDialog}>
             Cancel
@@ -1051,6 +1067,7 @@ function App() {
           {successMessage}
         </Alert>
       </Snackbar>
+
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={errorSnackbar}
@@ -1067,11 +1084,12 @@ function App() {
           {errorMessage}
         </Alert>
       </Snackbar>
+
       <AppBar position="static" sx={{ marginTop: '10px' }}>
         <Toolbar>
           <Avatar sx={{ width: 28, height: 28 }} alt="avatar" src={appLogo} />
           <Typography
-            variant="h6"
+            variant="h4"
             component="div"
             noWrap
             sx={{
@@ -1082,7 +1100,7 @@ function App() {
                 paddingLeft: '10px',
                 paddingTop: '3px',
               },
-              fontFamily: 'magistralbold',
+              fontFamily: 'roboto',
               fontWeight: 700,
               letterSpacing: '.1rem',
               color: 'inherit',
@@ -1091,6 +1109,7 @@ function App() {
           >
             <span style={{ color: '#05a2e4' }}>Qortal </span>Nodecontrol
           </Typography>
+
           <Typography
             variant="h6"
             component="div"
@@ -1103,7 +1122,7 @@ function App() {
                 paddingLeft: '10px',
                 paddingTop: '3px',
               },
-              fontFamily: 'magistralbold',
+              fontFamily: 'roboto',
               fontWeight: 700,
               letterSpacing: '.1rem',
               color: 'inherit',
@@ -1115,6 +1134,7 @@ function App() {
           {isUsingGateway ? '' : nodeControlButtons()}
         </Toolbar>
       </AppBar>
+
       <Grid
         container
         spacing={{ xs: 1, sm: 2, md: 3, lg: 4 }}
@@ -1128,6 +1148,7 @@ function App() {
             subtitle={nodeData?.height}
           />
         </div>
+
         <div>
           <NodeWidget
             icon={Hub}
@@ -1135,6 +1156,7 @@ function App() {
             subtitle={nodeData?.numberOfConnections}
           />
         </div>
+
         <div>
           <NodeWidget
             icon={HistoryToggleOff}
@@ -1142,6 +1164,7 @@ function App() {
             subtitle={secondsToDhms(nodeData?.uptime / 1000)}
           />
         </div>
+
         <div>
           <NodeWidget
             icon={AltRoute}
@@ -1149,6 +1172,7 @@ function App() {
             subtitle={nodeData?.buildVersion.replace('qortal-', 'v')}
           />
         </div>
+
         <div>
           <NodeWidget
             icon={Engineering}
@@ -1162,6 +1186,7 @@ function App() {
             }
           />
         </div>
+
         <div>
           <NodeWidget
             icon={Sync}
@@ -1182,19 +1207,25 @@ function App() {
           />
         </div>
       </Grid>
+
       <Box maxWidth="xl" marginTop={3}>
         {mintingAccountsHeader()}
       </Box>
+
       <Divider sx={{ marginTop: '5px' }} />
+
       <Box maxWidth="xl" marginTop={2}>
         {loadingMintingAccountsTable
           ? tableLoaderMintingAccounts()
           : tableMintingAccounts()}
       </Box>
+
       <Box maxWidth="xl" marginTop={4}>
         {connectedPeersHeader()}
       </Box>
+
       <Divider sx={{ marginTop: '5px' }} />
+
       <Box maxWidth="xl" marginTop={2}>
         {tableConnectedPeers()}
       </Box>
