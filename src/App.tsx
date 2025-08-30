@@ -63,7 +63,7 @@ import NodeWidget from './components/NodeWidget';
 import { useIframe } from './main';
 import { DefaultTheme } from '@mui/private-theming';
 import { useTheme } from '@mui/material/styles';
-import { useEffect, useState } from "react";
+import { ChangeEvent, Key, MouseEvent, SetStateAction, SyntheticEvent, useEffect, useState } from "react";
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -94,7 +94,7 @@ interface TablePaginationActionsProps {
   page: number;
   rowsPerPage: number;
   onPageChange: (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
     newPage: number,
   ) => void;
 };
@@ -104,20 +104,20 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   const { count, page, rowsPerPage, onPageChange } = props;
 
   const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: MouseEvent<HTMLButtonElement>,
   ) => {
     onPageChange(event, 0);
   };
 
-  const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBackButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, page - 1);
   };
 
-  const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNextButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLastPageButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
@@ -288,7 +288,7 @@ function App() {
     }
   };
 
-  function handleCloseSuccessSnackbar(_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason,) {
+  function handleCloseSuccessSnackbar(_event?: SyntheticEvent | Event, reason?: SnackbarCloseReason,) {
     if (reason === 'clickaway') {
       return;
     }
@@ -296,7 +296,7 @@ function App() {
     setSuccessMessage('');
   };
 
-  function handleCloseErrorSnackbar(_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason,) {
+  function handleCloseErrorSnackbar(_event?: SyntheticEvent | Event, reason?: SnackbarCloseReason,) {
     if (reason === 'clickaway') {
       return;
     }
@@ -495,11 +495,11 @@ function App() {
     }
   };
 
-  function handleChangePage(_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number,) {
+  function handleChangePage(_event: MouseEvent<HTMLButtonElement> | null, newPage: number,) {
     setPage(newPage);
   };
 
-  function handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) {
+  function handleChangeRowsPerPage(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -767,7 +767,7 @@ function App() {
                 recipientAccount: string;
                 name: string;
                 avatar: string;
-              }, a: React.Key) => (
+              }, a: Key) => (
                 <StyledTableRow key={a}>
                   <StyledTableCell style={{ width: 'auto' }} align="left">
                     <Avatar
@@ -849,7 +849,7 @@ function App() {
                 connectionId: string;
                 age: string;
                 isTooDivergent: boolean;
-              }, i: React.Key) => (
+              }, i: Key) => (
                 <StyledTableRow key={i}>
                   <StyledTableCell style={{ width: 'auto' }} align="left">
                     {row?.address}
@@ -979,7 +979,7 @@ function App() {
             value={mintingAccountKey}
             helperText="Minting key 44 characters long !"
             slotProps={{ htmlInput: { maxLength: 44, minLength: 44 } }}
-            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setMintingAccountKey(e.target.value)}
+            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setMintingAccountKey(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
@@ -1009,7 +1009,7 @@ function App() {
             id="peer-address"
             margin="normal"
             value={newPeerAddress}
-            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNewPeerAddress(e.target.value)}
+            onChange={(e: { target: { value: SetStateAction<string>; }; }) => setNewPeerAddress(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
