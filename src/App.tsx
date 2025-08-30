@@ -52,7 +52,6 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import appLogo from './assets/q-nodecontrol.png';
 import noAvatar from './assets/noavatar.png';
 import NodeWidget from './components/NodeWidget';
-import { DefaultTheme } from '@mui/private-theming';
 import { useTheme } from '@mui/material/styles';
 import {
   ChangeEvent,
@@ -200,9 +199,7 @@ const DialogGeneral = styled(Dialog)(({ theme }) => ({
 
 function App() {
   const { t } = useTranslation(['core']);
-
-  // retrieve the theme 'light' or 'dark'
-  const [theme] = useAtom(themeAtom);
+  const theme = useTheme();
 
   const [isUsingGateway, setIsUsingGateway] = useState(true);
   const [nodeData, setNodeData] = useState<any>(null);
@@ -226,8 +223,6 @@ function App() {
     page > 0
       ? Math.max(0, (1 + page) * rowsPerPage - connectedPeers.length)
       : 0;
-
-  let newTheme: Partial<DefaultTheme>;
 
   function handleCloseSuccessSnackbar(
     _event?: SyntheticEvent | Event,
@@ -752,7 +747,7 @@ function App() {
                           handleRemoveMintingAccount(row?.publicKey);
                         }}
                       >
-                        Remove
+                        {t('core:action.remove')}
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -767,9 +762,9 @@ function App() {
         <Typography
           variant="h5"
           align="center"
-          sx={{ color: 'white', fontWeight: 700 }}
+          sx={{ color: theme.palette.text.primary, fontWeight: 700 }}
         >
-          No minting accounts found for this Node!
+          {t('core:message.generic.no_minting_accounts')}
         </Typography>
       );
     }
@@ -794,6 +789,7 @@ function App() {
                 <StyledTableCell align="left">Actions</StyledTableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {(rowsPerPage > 0
                 ? connectedPeers.slice(
@@ -860,7 +856,7 @@ function App() {
                           handleRemovePeer(row?.address);
                         }}
                       >
-                        Remove
+                        {t('core:action.remove')}
                       </Button>
 
                       <Button
@@ -872,7 +868,7 @@ function App() {
                           handleForceSync(row?.address);
                         }}
                       >
-                        Force Sync
+                        {t('core:action.force_sync')}
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -935,6 +931,7 @@ function App() {
         >
           <CircularProgress />
         </div>
+
         <div
           style={{
             width: '100%',
@@ -966,11 +963,17 @@ function App() {
         open={openMintingAccountDialog}
         keepMounted={false}
       >
-        <DialogTitle>Add minting account</DialogTitle>
-        
+        <DialogTitle>
+          {t('core:action.add_minting_account', {
+            postProcess: 'capitalizeFirstChar',
+          })}
+        </DialogTitle>
+
         <DialogContent>
           <DialogContentText>
-            Please enter the minting key to be added to this node.
+            {t('core:message.generic.add_minting_account', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </DialogContentText>
           <TextField
             required
@@ -978,7 +981,9 @@ function App() {
             id="minting-key"
             margin="normal"
             value={mintingAccountKey}
-            helperText="Minting key 44 characters long !"
+            helperText={t('core:message.generic.minting_key_helper', {
+              postProcess: 'capitalizeFirstChar',
+            })}
             slotProps={{ htmlInput: { maxLength: 44, minLength: 44 } }}
             onChange={(e: { target: { value: SetStateAction<string> } }) =>
               setMintingAccountKey(e.target.value)
@@ -988,7 +993,9 @@ function App() {
 
         <DialogActions>
           <Button color="error" onClick={handleCloseAddMintingAccountDialog}>
-            Cancel
+            {t('core:action.cancel', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </Button>
           <Button
             color="success"
@@ -996,7 +1003,9 @@ function App() {
               handleAddMintingAccount(mintingAccountKey);
             }}
           >
-            Add
+            {t('core:action.add', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </Button>
         </DialogActions>
       </DialogGeneral>
@@ -1011,12 +1020,17 @@ function App() {
         open={openPeerDialog}
         keepMounted={false}
       >
-        <DialogTitle>Add new peer</DialogTitle>
+        <DialogTitle>
+          {t('core:action.add_peer', {
+            postProcess: 'capitalizeFirstChar',
+          })}
+        </DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            Specify a peer using hostname, IPv4 address, IPv6 address and
-            optional port number preceeded with colon.
+            {t('core:message.generic.add_peer', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </DialogContentText>
           <TextField
             required
@@ -1032,7 +1046,9 @@ function App() {
 
         <DialogActions>
           <Button color="error" onClick={handleCloseAddPeerDialog}>
-            Cancel
+            {t('core:action.cancel', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </Button>
           <Button
             color="success"
@@ -1040,7 +1056,9 @@ function App() {
               handleAddPeer(newPeerAddress);
             }}
           >
-            Add
+            {t('core:action.add', {
+              postProcess: 'capitalizeFirstChar',
+            })}
           </Button>
         </DialogActions>
       </DialogGeneral>
@@ -1062,7 +1080,7 @@ function App() {
           onClose={handleCloseSuccessSnackbar}
           severity="success"
           variant="filled"
-          sx={{ width: '100%', color: '#ffffff' }}
+          sx={{ width: '100%', color: theme.palette.primary.main }}
         >
           {successMessage}
         </Alert>
@@ -1079,7 +1097,7 @@ function App() {
           onClose={handleCloseErrorSnackbar}
           severity="error"
           variant="filled"
-          sx={{ width: '100%', color: '#ffffff' }}
+          sx={{ width: '100%', color: theme.palette.primary.main }}
         >
           {errorMessage}
         </Alert>
@@ -1179,9 +1197,17 @@ function App() {
             title="MINTING STATUS"
             subtitle={
               nodeData?.isMintingPossible ? (
-                <span style={{ color: '#66bb6a' }}>MINTING</span>
+                <span style={{ color: '#66bb6a' }}>
+                  {t('core.status.minting', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </span>
               ) : (
-                <span style={{ color: '#f44336' }}>NOT MINTING</span>
+                <span style={{ color: '#f44336' }}>
+                  {t('core.status.not_minting', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </span>
               )
             }
           />
@@ -1194,12 +1220,20 @@ function App() {
             subtitle={
               nodeData?.isSynchronizing ? (
                 <>
-                  <span style={{ color: '#ffa726' }}>SYNCING </span>
+                  <span style={{ color: '#ffa726' }}>
+                    {t('core.status.synchronizing', {
+                      postProcess: 'capitalizeFirstChar',
+                    })}
+                  </span>
                   <span>{'(' + nodeData?.syncPercent + '%)'}</span>
                 </>
               ) : (
                 <>
-                  <span style={{ color: '#66bb6a' }}>SYNCED </span>
+                  <span style={{ color: '#66bb6a' }}>
+                    {t('core.status.synchronized', {
+                      postProcess: 'capitalizeFirstChar',
+                    })}
+                  </span>
                   <span>{'(' + nodeData?.syncPercent + '%)'}</span>
                 </>
               )
