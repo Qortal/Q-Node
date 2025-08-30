@@ -12,7 +12,7 @@ const baseUrl = customWindow?._qdnBase || "";
 
 export const useIframe = () => {
   const navigate = useNavigate();
-  React.useEffect(() => {
+  useEffect(() => {
     function handleNavigation(event: { data: { action: string; path: To; }; }) {
       if (event.data?.action === "NAVIGATE_TO_PATH" && event.data.path) {
         navigate(event.data.path); // Navigate directly to the specified path

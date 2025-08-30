@@ -1,4 +1,3 @@
-import * as React from 'react';
 import "@fontsource/lato";
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -64,6 +63,7 @@ import NodeWidget from './components/NodeWidget';
 import { useIframe } from './main';
 import { DefaultTheme } from '@mui/private-theming';
 import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from "react";
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -193,22 +193,22 @@ const DialogGeneral = styled(Dialog)(({ theme }) => ({
 function App() {
   useIframe();
 
-  const [dark, setDark] = React.useState(true);
-  const [isUsingGateway, setIsUsingGateway] = React.useState(true);
-  const [nodeData, setNodeData] = React.useState<any>(null);
-  const [mintingAccounts, setMintingAccounts] = React.useState<any>([]);
-  const [connectedPeers, setConnectedPeers] = React.useState<any>([]);
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const [errorSnackbar, setErrorSnackbar] = React.useState(false);
-  const [successMessage, setSuccessMessage] = React.useState('');
-  const [successSnackbar, setSuccessSnackbar] = React.useState(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [loadingMintingAccountsTable, setLoadingMintingAccountsTable] = React.useState(true);
-  const [openMintingAccountDialog, setOpenMintingAccountDialog] = React.useState(false);
-  const [mintingAccountKey, setMintingAccountKey] = React.useState('');
-  const [openPeerDialog, setOpenPeerDialog] = React.useState(false);
-  const [newPeerAddress, setNewPeerAddress] = React.useState('');
+  const [dark, setDark] = useState(true);
+  const [isUsingGateway, setIsUsingGateway] = useState(true);
+  const [nodeData, setNodeData] = useState<any>(null);
+  const [mintingAccounts, setMintingAccounts] = useState<any>([]);
+  const [connectedPeers, setConnectedPeers] = useState<any>([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorSnackbar, setErrorSnackbar] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [successSnackbar, setSuccessSnackbar] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [loadingMintingAccountsTable, setLoadingMintingAccountsTable] = useState(true);
+  const [openMintingAccountDialog, setOpenMintingAccountDialog] = useState(false);
+  const [mintingAccountKey, setMintingAccountKey] = useState('');
+  const [openPeerDialog, setOpenPeerDialog] = useState(false);
+  const [newPeerAddress, setNewPeerAddress] = useState('');
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - connectedPeers.length) : 0;
 
@@ -515,7 +515,7 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getIsUsingGateway();
   }, []);
 
@@ -533,7 +533,7 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     let nodeDataTIntervalId: number | undefined;
     (async () => {
       nodeDataTIntervalId = setInterval(async () => {
@@ -592,7 +592,7 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     let mintingAccountsInterval: number | undefined;
     (async () => {
       mintingAccountsInterval = setInterval(async () => {
@@ -616,7 +616,7 @@ function App() {
     resolveConnectedPeers;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     let connectedPeersInterval: number | undefined;
     (async () => {
       connectedPeersInterval = setInterval(async () => {
