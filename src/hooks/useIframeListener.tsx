@@ -12,6 +12,7 @@ interface CustomWindow extends Window {
   _qdnTheme: Theme;
   _qdnLang: Language;
 }
+
 const customWindow = window as unknown as CustomWindow;
 
 export const useIframe = () => {
