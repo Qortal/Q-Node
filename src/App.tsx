@@ -63,6 +63,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from './i18n/i18n';
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -497,7 +498,7 @@ function App() {
     getIsUsingGateway();
   }, []);
 
-  async function getNodeData() {
+  async function getNodeInfo() {
     try {
       const nodeInfo = await qortalRequest({
         action: 'GET_NODE_INFO',
@@ -518,7 +519,7 @@ function App() {
       if (isRunning) return;
       isRunning = true;
       try {
-        const data = await getNodeData();
+        const data = await getNodeInfo();
         setNodeData(data);
       } finally {
         isRunning = false;
@@ -555,12 +556,15 @@ function App() {
   async function getMintingAccounts() {
     setLoadingMintingAccountsTable(true);
     try {
-      const res = await fetch('/admin/mintingaccounts', {
-        headers: { Accept: 'application/json' },
+      const res = await qortalRequest({
+        action: 'ADMIN_ACTION',
+        type: 'getmintingaccounts',
       });
 
       const contentType = res.headers.get('content-type') || '';
       const bodyText = await res.text();
+
+      JSON.stringify(res);
 
       if (!res.ok) {
         throw new Error(
@@ -741,6 +745,7 @@ function App() {
         <Typography variant="h6">
           {t('core:message.generic.connected_peers', {
             postProcess: 'capitalizeFirstChar',
+            count: connectedPeers.length,
           })}
         </Typography>
         <Button

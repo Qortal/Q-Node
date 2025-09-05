@@ -11,7 +11,7 @@
     "generic": {
       "add_peer": "specifica un peer utilizzando hostname, indirizzo IPv4, indirizzo IPv6 e numero di porta opzionale preceduto da due punti.",
       "add_minting_account": "inserisci la chiave di minting da aggiungere a questo nodo.",
-      "connected_peers": "peer connessi a questo Nodo",
+      "connected_peers": "peer connessi a questo nodo ({{ count }})",
       "loading_minting_accounts": "Caricamento degli account di minting, attendere...",
       "minting_account": "account di minting",
       "minting_key": "chiave di minting",
@@ -20,12 +20,12 @@
       "no_peers": "il nodo non ha peer connessi",
       "rows_per_page": "righe per pagina",
       "success": {
-        "bootstrap_request": "richiesta di bootstrap a questo Nodo inviata con successo! Potrebbe richiedere fino a 10 minuti...",
+        "bootstrap_request": "richiesta di bootstrap a questo nodo inviata con successo! Potrebbe richiedere fino a 10 minuti...",
         "new_minting_account": "account di minting aggiunto con successo",
         "new_peer": "nuovo peer aggiunto con successo",
         "remove_minting_account": "account di minting rimosso con successo",
-        "restart_request": "richiesta di riavvio di questo Nodo inviata con successo! Potrebbe richiedere fino a 5 minuti...",
-        "stop_request": "richiesta di arresto di questo Nodo inviata con successo! Avvia nuovamente il tuo nodo..."
+        "restart_request": "richiesta di riavvio di questo nodo inviata con successo! Potrebbe richiedere fino a 5 minuti...",
+        "stop_request": "richiesta di arresto di questo nodo inviata con successo! Avvia nuovamente il tuo nodo..."
       }
     }
   },
