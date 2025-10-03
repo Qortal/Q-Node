@@ -657,7 +657,7 @@ function App() {
     };
   }, []);
 
-  const nodeControlButtons = () => {
+  const nodeButtons = () => {
     return (
       <div
         style={{
@@ -1286,7 +1286,7 @@ function App() {
           >
             <span style={{ color: '#05a2e4' }}>Q</span>NC
           </Typography>
-          {isUsingGateway ? '' : nodeControlButtons()}
+          {isUsingGateway ? '' : nodeButtons()}
         </Toolbar>
       </AppBar>
 
