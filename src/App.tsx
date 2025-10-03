@@ -49,7 +49,7 @@ import {
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import appLogo from './assets/q-nodecontrol.png';
+import appLogo from './assets/Q-Node.png';
 import noAvatar from './assets/noavatar.png';
 import NodeWidget from './components/NodeWidget';
 import { useTheme } from '@mui/material/styles';

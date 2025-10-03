@@ -7,7 +7,7 @@ export const AppWrapper = () => {
   return (
     <GlobalProvider
       config={{
-        appName: 'Q-Nodecontrol',
+        appName: 'Q-Node',
         auth: {
           balanceSetting: {
             interval: 180000,
