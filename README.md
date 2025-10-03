@@ -1,8 +1,8 @@
-# Q-Nodecontrol - Vite.js and TypeScript
+# Q-Node - Vite.js and TypeScript
 
 ## How to use
 
-Download the source [or clone the repo](https://github.com/AlphaX-Qortal/Q-Nodecontrol):
+Download the source [or clone the repo](https://github.com/AlphaX-Qortal/Q-Node):
 
 Install it and run development:
 

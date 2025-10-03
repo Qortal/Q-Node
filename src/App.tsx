@@ -49,7 +49,7 @@ import {
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import appLogo from './assets/q-nodecontrol.png';
+import appLogo from './assets/Q-Node.png';
 import noAvatar from './assets/noavatar.png';
 import NodeWidget from './components/NodeWidget';
 import { useTheme } from '@mui/material/styles';
@@ -657,7 +657,7 @@ function App() {
     };
   }, []);
 
-  const nodeControlButtons = () => {
+  const nodeButtons = () => {
     return (
       <div
         style={{
@@ -1262,7 +1262,7 @@ function App() {
               textDecoration: 'none',
             }}
           >
-            <span style={{ color: '#05a2e4' }}>Qortal </span>Nodecontrol
+            <span style={{ color: '#05a2e4' }}>Qortal </span>Node
           </Typography>
 
           <Typography
@@ -1286,7 +1286,7 @@ function App() {
           >
             <span style={{ color: '#05a2e4' }}>Q</span>NC
           </Typography>
-          {isUsingGateway ? '' : nodeControlButtons()}
+          {isUsingGateway ? '' : nodeButtons()}
         </Toolbar>
       </AppBar>
 
