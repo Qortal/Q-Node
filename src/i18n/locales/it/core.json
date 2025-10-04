@@ -58,7 +58,7 @@
     "connected_peers": "peer connessi",
     "core_version": "versione core",
     "minting_status": "stato minting",
-    "node_uptime": "node uptime",
-    "sync_status": "stato syncronizzazione"
+    "node_uptime": "uptime del nodo",
+    "sync_status": "stato sincronizzazione"
   }
 }

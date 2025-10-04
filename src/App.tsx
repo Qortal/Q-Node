@@ -917,15 +917,16 @@ function App() {
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
-                      {row?.handshakeStatus === 'COMPLETED' ? (
-                        <div style={{ color: '#66bb6a' }}>
-                          {row?.handshakeStatus}
-                        </div>
-                      ) : (
-                        <div style={{ color: '#ffa726' }}>
-                          {row?.handshakeStatus}
-                        </div>
-                      )}
+                      <Box
+                        sx={{
+                          color:
+                            row?.handshakeStatus === 'COMPLETED'
+                              ? theme.palette.success.main
+                              : theme.palette.error.main,
+                        }}
+                      >
+                        {row?.handshakeStatus}
+                      </Box>
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
@@ -1096,12 +1097,13 @@ function App() {
         </DialogContent>
 
         <DialogActions>
-          <Button color="error" onClick={handleCloseAddMintingAccountDialog}>
+          <Button variant='contained' color="error" onClick={handleCloseAddMintingAccountDialog}>
             {t('core:action.cancel', {
               postProcess: 'capitalizeFirstChar',
             })}
           </Button>
           <Button
+            variant='contained'
             color="success"
             onClick={() => {
               handleAddMintingAccount(mintingAccountKey);
@@ -1184,7 +1186,7 @@ function App() {
           onClose={handleCloseSuccessSnackbar}
           severity="success"
           variant="filled"
-          sx={{ width: '100%', color: theme.palette.primary.main }}
+          sx={{ width: '100%', color: theme.palette.text.primary }}
         >
           {successMessage}
         </Alert>
@@ -1201,7 +1203,7 @@ function App() {
           onClose={handleCloseErrorSnackbar}
           severity="error"
           variant="filled"
-          sx={{ width: '100%', color: theme.palette.primary.main }}
+          sx={{ width: '100%', color: theme.palette.text.primary }}
         >
           {errorMessage}
         </Alert>
