@@ -626,7 +626,7 @@ function App() {
 
   const nodeButtons = () => {
     return (
-      <div
+      <Box
         style={{
           alignItems: 'center',
           display: 'flex',
@@ -659,13 +659,13 @@ function App() {
             <Dangerous color="error" />
           </IconButton>
         </Tooltip>
-      </div>
+      </Box>
     );
   };
 
   const mintingAccountsHeader = () => {
     return (
-      <div
+      <Box
         style={{
           alignItems: 'center',
           display: 'flex',
@@ -693,13 +693,13 @@ function App() {
             postProcess: 'capitalizeFirstChar',
           })}
         </Button>
-      </div>
+      </Box>
     );
   };
 
   const connectedPeersHeader = () => {
     return (
-      <div
+      <Box
         style={{
           alignItems: 'center',
           display: 'flex',
@@ -728,7 +728,7 @@ function App() {
             postProcess: 'capitalizeFirstChar',
           })}
         </Button>
-      </div>
+      </Box>
     );
   };
 
@@ -917,15 +917,16 @@ function App() {
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
-                      {row?.handshakeStatus === 'COMPLETED' ? (
-                        <div style={{ color: '#66bb6a' }}>
-                          {row?.handshakeStatus}
-                        </div>
-                      ) : (
-                        <div style={{ color: '#ffa726' }}>
-                          {row?.handshakeStatus}
-                        </div>
-                      )}
+                      <Box
+                        sx={{
+                          color:
+                            row?.handshakeStatus === 'COMPLETED'
+                              ? theme.palette.success.main
+                              : theme.palette.error.main,
+                        }}
+                      >
+                        {row?.handshakeStatus}
+                      </Box>
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
@@ -1024,7 +1025,7 @@ function App() {
   const tableLoaderMintingAccounts = () => {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-        <div
+        <Box
           style={{
             width: '100%',
             display: 'flex',
@@ -1032,9 +1033,9 @@ function App() {
           }}
         >
           <CircularProgress />
-        </div>
+        </Box>
 
-        <div
+        <Box
           style={{
             width: '100%',
             display: 'flex',
@@ -1052,7 +1053,7 @@ function App() {
               postProcess: 'capitalizeFirstChar',
             })}
           </Typography>
-        </div>
+        </Box>
       </Box>
     );
   };
@@ -1096,12 +1097,13 @@ function App() {
         </DialogContent>
 
         <DialogActions>
-          <Button color="error" onClick={handleCloseAddMintingAccountDialog}>
+          <Button variant='contained' color="error" onClick={handleCloseAddMintingAccountDialog}>
             {t('core:action.cancel', {
               postProcess: 'capitalizeFirstChar',
             })}
           </Button>
           <Button
+            variant='contained'
             color="success"
             onClick={() => {
               handleAddMintingAccount(mintingAccountKey);
@@ -1184,7 +1186,7 @@ function App() {
           onClose={handleCloseSuccessSnackbar}
           severity="success"
           variant="filled"
-          sx={{ width: '100%', color: theme.palette.primary.main }}
+          sx={{ width: '100%', color: theme.palette.text.primary }}
         >
           {successMessage}
         </Alert>
@@ -1201,7 +1203,7 @@ function App() {
           onClose={handleCloseErrorSnackbar}
           severity="error"
           variant="filled"
-          sx={{ width: '100%', color: theme.palette.primary.main }}
+          sx={{ width: '100%', color: theme.palette.text.primary }}
         >
           {errorMessage}
         </Alert>
@@ -1263,7 +1265,7 @@ function App() {
         sx={{ mt: 4, justifyContent: 'center', alignItems: 'baseline' }}
         columns={{ xs: 2, sm: 4, md: 6, lg: 8, xl: 12 }}
       >
-        <div>
+        <Box>
           <NodeWidget
             icon={GridView}
             title={t('core:widgets.block_height', {
@@ -1271,9 +1273,9 @@ function App() {
             })}
             subtitle={nodeData?.height}
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <NodeWidget
             icon={Hub}
             title={t('core:widgets.connected_peers', {
@@ -1281,9 +1283,9 @@ function App() {
             })}
             subtitle={nodeData?.numberOfConnections}
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <NodeWidget
             icon={HistoryToggleOff}
             title={t('core:widgets.node_uptime', {
@@ -1291,9 +1293,9 @@ function App() {
             })}
             subtitle={secondsToDhms(nodeData?.uptime / 1000)}
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <NodeWidget
             icon={AltRoute}
             title={t('core:widgets.core_version', {
@@ -1301,9 +1303,9 @@ function App() {
             })}
             subtitle={nodeData?.buildVersion.replace('qortal-', 'v')}
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <NodeWidget
             icon={Engineering}
             title={t('core:widgets.minting_status', {
@@ -1325,9 +1327,9 @@ function App() {
               )
             }
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box>
           <NodeWidget
             icon={Sync}
             title={t('core:widgets.sync_status', {
@@ -1355,7 +1357,7 @@ function App() {
               )
             }
           />
-        </div>
+        </Box>
       </Grid>
 
       <Box maxWidth="xl" marginTop={3}>
