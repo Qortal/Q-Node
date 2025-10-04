@@ -594,10 +594,6 @@ function App() {
     };
 
     fetchAccounts(); // initial
-
-    const intervalId = setInterval(fetchAccounts, TIME_MINUTES_5_IN_MILLISECONDS);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   async function getConnectedPeers() {
