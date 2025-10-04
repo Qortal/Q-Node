@@ -63,6 +63,10 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  TIME_MINUTES_1_IN_MILLISECONDS,
+  TIME_MINUTES_2_IN_MILLISECONDS,
+} from './common/constants';
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -78,10 +82,6 @@ function secondsToDhms(seconds: number) {
   const sDisplay = s > 0 ? s + (s == 1 ? 's' : 's') : '';
 
   return dDisplay + hDisplay + mDisplay + sDisplay;
-}
-
-function wait(milliseconds: number) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function SlideTransition(props: SlideProps) {
@@ -527,21 +527,24 @@ function App() {
 
     fetchNodeData(); // fetch once immediately
 
-    const intervalId = setInterval(fetchNodeData, 60000);
+    const intervalId = setInterval(
+      fetchNodeData,
+      TIME_MINUTES_1_IN_MILLISECONDS
+    );
 
     return () => clearInterval(intervalId);
   }, []);
 
   async function getNameInfo(address: string) {
-    const nameLink = `/names/address/${address}?limit=0&reverse=true`;
-    const nameResponse = await fetch(nameLink);
+    const primary = `/names/primary/${address}`;
+    const nameResponse = await fetch(primary);
     const nameResult = await nameResponse.json();
-    if (nameResult?.length > 0) {
+    if (nameResult != null) {
       return {
-        name: nameResult[0].name,
+        name: nameResult.name,
         avatar:
           '/arbitrary/THUMBNAIL/' +
-          nameResult[0].name +
+          nameResult.name +
           '/qortal_avatar?async=true',
       };
     } else {
@@ -553,14 +556,13 @@ function App() {
   }
 
   async function getMintingAccounts() {
-   
     setLoadingMintingAccountsTable(true);
     try {
       const list = await qortalRequest({
         action: 'ADMIN_ACTION',
         type: 'getmintingaccounts',
       });
-      
+
       // Enrich in parallel and WAIT for them
       const enriched = await Promise.all(
         list.map(async (item) => {
@@ -574,7 +576,6 @@ function App() {
           };
         })
       );
-
       setMintingAccounts(enriched);
     } catch (err) {
       console.error(err);
@@ -597,10 +598,6 @@ function App() {
     };
 
     fetchAccounts(); // initial
-
-    const intervalId = setInterval(fetchAccounts, 300000);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   async function getConnectedPeers() {
@@ -619,7 +616,7 @@ function App() {
     (async () => {
       connectedPeersInterval = setInterval(async () => {
         await getConnectedPeers();
-      }, 120000);
+      }, TIME_MINUTES_2_IN_MILLISECONDS);
       await getConnectedPeers();
     })();
     return () => {
