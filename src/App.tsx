@@ -66,6 +66,7 @@ import { useTranslation } from 'react-i18next';
 import {
   TIME_MINUTES_1_IN_MILLISECONDS,
   TIME_MINUTES_2_IN_MILLISECONDS,
+  TIME_SECONDS_4_IN_MILLISECONDS,
 } from './common/constants';
 
 function secondsToDhms(seconds: number) {
@@ -451,7 +452,7 @@ function App() {
       });
       if (!response?.error) {
         setSuccessMessage(
-          t('core:message.generic.starting_synch_peer', {
+          t('core:message.generic.starting_sync_peer', {
             postProcess: 'capitalizeFirstChar',
             address: peerAddress,
           })
@@ -1178,7 +1179,7 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={successSnackbar}
-        autoHideDuration={4000}
+        autoHideDuration={TIME_SECONDS_4_IN_MILLISECONDS}
         slots={{ transition: SlideTransition }}
         onClose={handleCloseSuccessSnackbar}
       >
@@ -1195,7 +1196,7 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={errorSnackbar}
-        autoHideDuration={4000}
+        autoHideDuration={TIME_SECONDS_4_IN_MILLISECONDS}
         slots={{ transition: SlideTransition }}
         onClose={handleCloseErrorSnackbar}
       >
