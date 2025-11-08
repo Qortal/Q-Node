@@ -66,7 +66,7 @@ import { useTranslation } from 'react-i18next';
 import {
   TIME_MINUTES_1_IN_MILLISECONDS,
   TIME_MINUTES_2_IN_MILLISECONDS,
-  TIME_SECONDS_4_IN_MILLISECONDS,
+  TIME_SECONDS_6_IN_MILLISECONDS
 } from './common/constants';
 
 function secondsToDhms(seconds: number) {
@@ -1013,7 +1013,7 @@ function App() {
         <Typography
           variant="h5"
           align="center"
-          sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
+          sx={{ color: theme.palette.text.primary, fontWeight: 700 }}
         >
           {t('core:message.generic.no_peers', {
             postProcess: 'capitalizeFirstChar',
@@ -1179,7 +1179,7 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={successSnackbar}
-        autoHideDuration={TIME_SECONDS_4_IN_MILLISECONDS}
+        autoHideDuration={TIME_SECONDS_6_IN_MILLISECONDS}
         slots={{ transition: SlideTransition }}
         onClose={handleCloseSuccessSnackbar}
       >
@@ -1196,7 +1196,7 @@ function App() {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={errorSnackbar}
-        autoHideDuration={TIME_SECONDS_4_IN_MILLISECONDS}
+        autoHideDuration={TIME_SECONDS_6_IN_MILLISECONDS}
         slots={{ transition: SlideTransition }}
         onClose={handleCloseErrorSnackbar}
       >
