@@ -6,6 +6,7 @@
     "add_minting_account": "إضافة حساب تعدين",
     "cancel": "إلغاء",
     "force_sync": "مزامنة بالقوة",
+    "refresh": "تحديث",
     "remove": "إزالة"
   },
   "message": {
@@ -51,6 +52,7 @@
       "address": "العنوان",
       "connected_since": "متصل منذ",
       "core_version": "إصدار النواة",
+      "direction": "الاتجاه",
       "handshake_status": "حالة المصافحة",
       "last_height": "آخر ارتفاع"
     },

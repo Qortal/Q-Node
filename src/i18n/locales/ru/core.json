@@ -6,6 +6,7 @@
     "add_minting_account": "Добавить аккаунт майнинга",
     "cancel": "Отмена",
     "force_sync": "Принудительная синхронизация",
+    "refresh": "Обновить",
     "remove": "Удалить"
   },
   "message": {
@@ -51,6 +52,7 @@
       "address": "Адрес",
       "connected_since": "Подключён с",
       "core_version": "Версия ядра",
+      "direction": "Направление",
       "handshake_status": "Статус рукопожатия",
       "last_height": "Последняя высота"
     },

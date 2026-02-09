@@ -6,6 +6,7 @@
     "add_minting_account": "Lisa mintimise konto",
     "cancel": "Tühista",
     "force_sync": "Sunni sünkroonimist",
+    "refresh": "Värskenda",
     "remove": "Eemalda"
   },
   "message": {
@@ -51,6 +52,7 @@
       "address": "Aadress",
       "connected_since": "Ühendatud alates",
       "core_version": "Tuumaversioon",
+      "direction": "Suund",
       "handshake_status": "Kätluse staatus",
       "last_height": "Viimane kõrgus"
     },

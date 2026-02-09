@@ -6,6 +6,7 @@
     "add_minting_account": "aggiungi account di minting",
     "cancel": "annulla",
     "force_sync": "forza sincronizzazione",
+    "refresh": "aggiorna",
     "remove": "rimuovi"
   },
   "message": {
@@ -49,6 +50,7 @@
       "address": "indirizzo",
       "connected_since": "connesso da",
       "core_version": "versione core",
+      "direction": "direzione",
       "handshake_status": "stato handshake",
       "last_height": "ultima altezza"
     },

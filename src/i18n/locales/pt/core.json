@@ -6,6 +6,7 @@
     "add_minting_account": "Adicionar conta de mineração",
     "cancel": "Cancelar",
     "force_sync": "Forçar sincronização",
+    "refresh": "Atualizar",
     "remove": "Remover"
   },
   "message": {
@@ -49,6 +50,7 @@
       "address": "Endereço",
       "connected_since": "Conectado desde",
       "core_version": "Versão do núcleo",
+      "direction": "Direção",
       "handshake_status": "Status do handshake",
       "last_height": "Última altura"
     },

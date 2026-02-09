@@ -6,6 +6,7 @@
     "add_minting_account": "Ajouter un compte de minage",
     "cancel": "Annuler",
     "force_sync": "Forcer la synchronisation",
+    "refresh": "Actualiser",
     "remove": "Supprimer"
   },
   "message": {
@@ -51,6 +52,7 @@
       "address": "Adresse",
       "connected_since": "Connecté depuis",
       "core_version": "Version du noyau",
+      "direction": "Direction",
       "handshake_status": "Statut du handshake",
       "last_height": "Dernière hauteur"
     },

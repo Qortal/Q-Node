@@ -6,6 +6,7 @@
     "add_minting_account": "マイニングアカウントを追加",
     "cancel": "キャンセル",
     "force_sync": "強制同期",
+    "refresh": "更新",
     "remove": "削除"
   },
   "message": {
@@ -49,6 +50,7 @@
       "address": "アドレス",
       "connected_since": "接続開始時刻",
       "core_version": "コアバージョン",
+      "direction": "方向",
       "handshake_status": "ハンドシェイク状態",
       "last_height": "最新の高さ"
     },

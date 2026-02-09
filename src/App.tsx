@@ -40,6 +40,7 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   LastPage,
+  Refresh,
   RemoveCircleOutline,
   RestartAlt,
   Storage,
@@ -60,15 +61,28 @@ import {
   SetStateAction,
   SyntheticEvent,
   useEffect,
+  useRef,
   useState,
 } from 'react';
+import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import { atomWithStorage } from 'jotai/utils';
 import {
   EMPTY_STRING,
   TIME_MINUTES_1_IN_MILLISECONDS,
   TIME_MINUTES_2_IN_MILLISECONDS,
   TIME_SECONDS_6_IN_MILLISECONDS,
 } from './common/constants';
+import { useAuth } from 'qapp-core';
+
+const peersRowsPerPageAtom = atomWithStorage<number>(
+  'q-node-peers-rows-per-page',
+  5
+);
+const dataPeersRowsPerPageAtom = atomWithStorage<number>(
+  'q-node-data-peers-rows-per-page',
+  5
+);
 
 function secondsToDhms(seconds: number) {
   seconds = Number(seconds);
@@ -200,7 +214,7 @@ const DialogGeneral = styled(Dialog)(({ theme }) => ({
 function App() {
   const { t } = useTranslation(['core']);
   const theme = useTheme();
-
+  const { address } = useAuth();
   const [isUsingGateway, setIsUsingGateway] = useState(true);
   const [nodeData, setNodeData] = useState<any>(null);
   const [mintingAccounts, setMintingAccounts] = useState<any>([]);
@@ -208,9 +222,10 @@ function App() {
   const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
   const [errorSnackbar, setErrorSnackbar] = useState(false);
   const [successMessage, setSuccessMessage] = useState(EMPTY_STRING);
+  const isFetchingAccounts = useRef(false);
   const [successSnackbar, setSuccessSnackbar] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useAtom(peersRowsPerPageAtom);
   const [loadingMintingAccountsTable, setLoadingMintingAccountsTable] =
     useState(true);
   const [openMintingAccountDialog, setOpenMintingAccountDialog] =
@@ -222,17 +237,23 @@ function App() {
   const [openDataPeerDialog, setOpenDataPeerDialog] = useState(false);
   const [newDataPeerAddress, setNewDataPeerAddress] = useState(EMPTY_STRING);
   const [dataPeerPage, setDataPeerPage] = useState(0);
-  const [dataRowsPerPage, setDataRowsPerPage] = useState(5);
+  const [dataRowsPerPage, setDataRowsPerPage] = useAtom(dataPeersRowsPerPageAtom);
 
   const emptyRows =
+    rowsPerPage > 0 &&
+    rowsPerPage < connectedPeers.length &&
     page > 0
       ? Math.max(0, (1 + page) * rowsPerPage - connectedPeers.length)
       : 0;
 
-  const emptyDataRows = Math.max(
-    0,
-    (1 + dataPeerPage) * dataRowsPerPage - connectedDataPeers.length
-  );
+  const emptyDataRows =
+    dataRowsPerPage > 0 &&
+    dataRowsPerPage < connectedDataPeers.length
+      ? Math.max(
+          0,
+          (1 + dataPeerPage) * dataRowsPerPage - connectedDataPeers.length
+        )
+      : 0;
 
   function handleCloseSuccessSnackbar(
     _event?: SyntheticEvent | Event,
@@ -658,7 +679,6 @@ function App() {
         action: 'ADMIN_ACTION',
         type: 'getmintingaccounts',
       });
-
       // Enrich in parallel and WAIT for them
       const enriched = await Promise.all(
         list.map(async (item) => {
@@ -681,20 +701,20 @@ function App() {
   }
 
   useEffect(() => {
-    let isRunning = false;
+    if (!address) return;
 
     const fetchAccounts = async () => {
-      if (isRunning) return;
-      isRunning = true;
+      if (isFetchingAccounts.current) return;
+      isFetchingAccounts.current = true;
       try {
         await getMintingAccounts();
       } finally {
-        isRunning = false;
+        isFetchingAccounts.current = false;
       }
     };
 
     fetchAccounts(); // initial
-  }, []);
+  }, [address]);
 
   async function getConnectedPeers() {
     const connectedPeersLink = `/peers`;
@@ -823,20 +843,32 @@ function App() {
             count: connectedPeers.length,
           })}
         </Typography>
-        <Button
-          disabled={isUsingGateway}
-          size="small"
-          onClick={() => {
-            setOpenPeerDialog(true);
-          }}
-          startIcon={<AddBoxOutlined />}
-          variant="outlined"
-          style={{ borderRadius: 50 }}
-        >
-          {t('core:action.add_peer', {
-            postProcess: 'capitalizeFirstChar',
-          })}
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Tooltip title={t('core:action.refresh', { postProcess: 'capitalizeFirstChar' })}>
+            <IconButton
+              disabled={isUsingGateway}
+              size="small"
+              onClick={() => getConnectedPeers()}
+              aria-label="refresh peers"
+            >
+              <Refresh />
+            </IconButton>
+          </Tooltip>
+          <Button
+            disabled={isUsingGateway}
+            size="small"
+            onClick={() => {
+              setOpenPeerDialog(true);
+            }}
+            startIcon={<AddBoxOutlined />}
+            variant="outlined"
+            style={{ borderRadius: 50 }}
+          >
+            {t('core:action.add_peer', {
+              postProcess: 'capitalizeFirstChar',
+            })}
+          </Button>
+        </Box>
       </Box>
     );
   };
@@ -858,20 +890,32 @@ function App() {
             count: connectedDataPeers.length,
           })}
         </Typography>
-        <Button
-          disabled={isUsingGateway}
-          size="small"
-          onClick={() => {
-            setOpenDataPeerDialog(true);
-          }}
-          startIcon={<AddBoxOutlined />}
-          variant="outlined"
-          style={{ borderRadius: 50 }}
-        >
-          {t('core:action.add_data_peer', {
-            postProcess: 'capitalizeFirstChar',
-          })}
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Tooltip title={t('core:action.refresh', { postProcess: 'capitalizeFirstChar' })}>
+            <IconButton
+              disabled={isUsingGateway}
+              size="small"
+              onClick={() => getConnectedDataPeers()}
+              aria-label="refresh data peers"
+            >
+              <Refresh />
+            </IconButton>
+          </Tooltip>
+          <Button
+            disabled={isUsingGateway}
+            size="small"
+            onClick={() => {
+              setOpenDataPeerDialog(true);
+            }}
+            startIcon={<AddBoxOutlined />}
+            variant="outlined"
+            style={{ borderRadius: 50 }}
+          >
+            {t('core:action.add_data_peer', {
+              postProcess: 'capitalizeFirstChar',
+            })}
+          </Button>
+        </Box>
       </Box>
     );
   };
@@ -1001,6 +1045,11 @@ function App() {
                   })}
                 </StyledTableCell>
                 <StyledTableCell align="left">
+                  {t('core:table_headers.peers.direction', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
                   {t('core:table_headers.peers.handshake_status', {
                     postProcess: 'capitalizeFirstChar',
                   })}
@@ -1058,6 +1107,10 @@ function App() {
                   <StyledTableRow key={i}>
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.address}
+                    </StyledTableCell>
+
+                    <StyledTableCell style={{ width: 'auto' }} align="left">
+                      {row?.direction ?? ''}
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
@@ -1143,7 +1196,7 @@ function App() {
                   ]}
                   colSpan={6}
                   count={connectedPeers.length}
-                  rowsPerPage={rowsPerPage}
+                  rowsPerPage={rowsPerPage === 999999 ? -1 : rowsPerPage}
                   page={page}
                   slotProps={{
                     select: {
@@ -1194,6 +1247,11 @@ function App() {
                   })}
                 </StyledTableCell>
                 <StyledTableCell align="left">
+                  {t('core:table_headers.peers.direction', {
+                    postProcess: 'capitalizeFirstChar',
+                  })}
+                </StyledTableCell>
+                <StyledTableCell align="left">
                   {t('core:table_headers.peers.handshake_status', {
                     postProcess: 'capitalizeFirstChar',
                   })}
@@ -1227,6 +1285,7 @@ function App() {
                 (
                   row: {
                     address?: string;
+                    direction?: string;
                     handshakeStatus?: string;
                     version?: string;
                     age?: string;
@@ -1236,6 +1295,10 @@ function App() {
                   <StyledTableRow key={i}>
                     <StyledTableCell style={{ width: 'auto' }} align="left">
                       {row?.address ?? ''}
+                    </StyledTableCell>
+
+                    <StyledTableCell style={{ width: 'auto' }} align="left">
+                      {row?.direction ?? ''}
                     </StyledTableCell>
 
                     <StyledTableCell style={{ width: 'auto' }} align="left">
@@ -1303,7 +1366,7 @@ function App() {
                   ]}
                   colSpan={5}
                   count={connectedDataPeers.length}
-                  rowsPerPage={dataRowsPerPage}
+                  rowsPerPage={dataRowsPerPage === 999999 ? -1 : dataRowsPerPage}
                   page={dataPeerPage}
                   slotProps={{
                     select: {

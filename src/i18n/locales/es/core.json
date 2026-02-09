@@ -6,6 +6,7 @@
     "add_minting_account": "Añadir cuenta de minteo",
     "cancel": "Cancelar",
     "force_sync": "Forzar sincronización",
+    "refresh": "Actualizar",
     "remove": "Eliminar"
   },
   "message": {
@@ -50,6 +51,7 @@
       "address": "Dirección",
       "connected_since": "Conectado desde",
       "core_version": "Versión del núcleo",
+      "direction": "Dirección",
       "handshake_status": "Estado del handshake",
       "last_height": "Última altura"
     },

@@ -6,6 +6,7 @@
     "add_minting_account": "添加铸造账户",
     "cancel": "取消",
     "force_sync": "强制同步",
+    "refresh": "刷新",
     "remove": "移除"
   },
   "message": {
@@ -51,6 +52,7 @@
       "address": "地址",
       "connected_since": "连接时间",
       "core_version": "核心版本",
+      "direction": "方向",
       "handshake_status": "握手状态",
       "last_height": "最新高度"
     },
