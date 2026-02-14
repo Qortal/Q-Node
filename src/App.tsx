@@ -237,18 +237,17 @@ function App() {
   const [openDataPeerDialog, setOpenDataPeerDialog] = useState(false);
   const [newDataPeerAddress, setNewDataPeerAddress] = useState(EMPTY_STRING);
   const [dataPeerPage, setDataPeerPage] = useState(0);
-  const [dataRowsPerPage, setDataRowsPerPage] = useAtom(dataPeersRowsPerPageAtom);
+  const [dataRowsPerPage, setDataRowsPerPage] = useAtom(
+    dataPeersRowsPerPageAtom
+  );
 
   const emptyRows =
-    rowsPerPage > 0 &&
-    rowsPerPage < connectedPeers.length &&
-    page > 0
+    rowsPerPage > 0 && rowsPerPage < connectedPeers.length && page > 0
       ? Math.max(0, (1 + page) * rowsPerPage - connectedPeers.length)
       : 0;
 
   const emptyDataRows =
-    dataRowsPerPage > 0 &&
-    dataRowsPerPage < connectedDataPeers.length
+    dataRowsPerPage > 0 && dataRowsPerPage < connectedDataPeers.length
       ? Math.max(
           0,
           (1 + dataPeerPage) * dataRowsPerPage - connectedDataPeers.length
@@ -844,7 +843,11 @@ function App() {
           })}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Tooltip title={t('core:action.refresh', { postProcess: 'capitalizeFirstChar' })}>
+          <Tooltip
+            title={t('core:action.refresh', {
+              postProcess: 'capitalizeFirstChar',
+            })}
+          >
             <IconButton
               disabled={isUsingGateway}
               size="small"
@@ -891,7 +894,11 @@ function App() {
           })}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Tooltip title={t('core:action.refresh', { postProcess: 'capitalizeFirstChar' })}>
+          <Tooltip
+            title={t('core:action.refresh', {
+              postProcess: 'capitalizeFirstChar',
+            })}
+          >
             <IconButton
               disabled={isUsingGateway}
               size="small"
@@ -1366,7 +1373,9 @@ function App() {
                   ]}
                   colSpan={5}
                   count={connectedDataPeers.length}
-                  rowsPerPage={dataRowsPerPage === 999999 ? -1 : dataRowsPerPage}
+                  rowsPerPage={
+                    dataRowsPerPage === 999999 ? -1 : dataRowsPerPage
+                  }
                   page={dataPeerPage}
                   slotProps={{
                     select: {
@@ -1703,21 +1712,11 @@ function App() {
       >
         <Box>
           <NodeWidget
-            icon={GridView}
-            title={t('core:widgets.block_height', {
+            icon={AltRoute}
+            title={t('core:widgets.core_version', {
               postProcess: 'capitalizeAll',
             })}
-            subtitle={nodeData?.height}
-          />
-        </Box>
-
-        <Box>
-          <NodeWidget
-            icon={Hub}
-            title={t('core:widgets.connected_peers', {
-              postProcess: 'capitalizeAll',
-            })}
-            subtitle={nodeData?.numberOfConnections}
+            subtitle={nodeData?.buildVersion.replace('qortal-', 'v')}
           />
         </Box>
 
@@ -1733,11 +1732,31 @@ function App() {
 
         <Box>
           <NodeWidget
-            icon={AltRoute}
-            title={t('core:widgets.core_version', {
+            icon={Hub}
+            title={t('core:widgets.connected_peers', {
               postProcess: 'capitalizeAll',
             })}
-            subtitle={nodeData?.buildVersion.replace('qortal-', 'v')}
+            subtitle={nodeData?.numberOfConnections}
+          />
+        </Box>
+
+        <Box>
+          <NodeWidget
+            icon={Hub}
+            title={t('core:widgets.connected_data_peers', {
+              postProcess: 'capitalizeAll',
+            })}
+            subtitle={nodeData?.numberOfDataConnections}
+          />
+        </Box>
+
+        <Box>
+          <NodeWidget
+            icon={GridView}
+            title={t('core:widgets.block_height', {
+              postProcess: 'capitalizeAll',
+            })}
+            subtitle={nodeData?.height}
           />
         </Box>
 
